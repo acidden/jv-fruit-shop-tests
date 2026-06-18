@@ -57,4 +57,5 @@ class ShopServiceTest {
 
         assertThrows(IllegalArgumentException.class, () -> shopService.process(transactions));
     }
+
 }
