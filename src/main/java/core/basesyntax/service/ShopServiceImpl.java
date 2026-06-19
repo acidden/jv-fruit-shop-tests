@@ -2,7 +2,6 @@ package core.basesyntax.service;
 
 import core.basesyntax.service.operation.OperationHandler;
 import core.basesyntax.service.operation.OperationStrategy;
-
 import java.util.List;
 
 public class ShopServiceImpl implements ShopService {

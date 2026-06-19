@@ -1,17 +1,25 @@
 package core.basesyntax;
 
-import core.basesyntax.service.FruitTransaction;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import core.basesyntax.db.Storage;
+import core.basesyntax.service.FruitTransaction;
 import core.basesyntax.service.ShopService;
 import core.basesyntax.service.ShopServiceImpl;
-import core.basesyntax.service.operation.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import core.basesyntax.service.operation.BalanceOperationHandler;
+import core.basesyntax.service.operation.OperationHandler;
+import core.basesyntax.service.operation.OperationStrategy;
+import core.basesyntax.service.operation.OperationStrategyImpl;
+import core.basesyntax.service.operation.PurchaseOperationHandler;
+import core.basesyntax.service.operation.ReturnOperationHandler;
+import core.basesyntax.service.operation.SupplyOperationHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class ShopServiceTest {
     private ShopService shopService;

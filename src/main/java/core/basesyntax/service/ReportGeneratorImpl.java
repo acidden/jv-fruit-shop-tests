@@ -1,7 +1,6 @@
 package core.basesyntax.service;
 
 import core.basesyntax.db.Storage;
-
 import java.util.stream.Collectors;
 
 public class ReportGeneratorImpl implements ReportGenerator {

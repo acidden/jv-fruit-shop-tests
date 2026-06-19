@@ -1,11 +1,17 @@
 package core.basesyntax;
 
-import core.basesyntax.service.FruitTransaction;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import core.basesyntax.db.Storage;
-import core.basesyntax.service.operation.*;
+import core.basesyntax.service.FruitTransaction;
+import core.basesyntax.service.operation.BalanceOperationHandler;
+import core.basesyntax.service.operation.OperationHandler;
+import core.basesyntax.service.operation.PurchaseOperationHandler;
+import core.basesyntax.service.operation.ReturnOperationHandler;
+import core.basesyntax.service.operation.SupplyOperationHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class OperationHandlersTest {
     private OperationHandler balanceHandler;
@@ -38,15 +44,16 @@ class OperationHandlersTest {
         supplyHandler.handle(supplyNew);
         assertEquals(50, Storage.getQuantity("apple"));
 
-        // Поставка существующего фрукта (должно суммироваться)
-        FruitTransaction supplyExisting = new FruitTransaction(FruitTransaction.Operation.SUPPLY, "apple", 30);
+        FruitTransaction supplyExisting = new FruitTransaction(FruitTransaction.Operation.SUPPLY,
+                "apple", 30);
         supplyHandler.handle(supplyExisting);
         assertEquals(80, Storage.getQuantity("apple"));
     }
 
     @Test
     void returnHandler_ok() {
-        FruitTransaction returnTx = new FruitTransaction(FruitTransaction.Operation.RETURN, "orange", 10);
+        FruitTransaction returnTx = new FruitTransaction(FruitTransaction.Operation.RETURN,
+                "orange", 10);
         returnHandler.handle(returnTx);
         assertEquals(10, Storage.getQuantity("orange"));
     }
@@ -54,15 +61,16 @@ class OperationHandlersTest {
     @Test
     void purchaseHandler_validPurchase_ok() {
         Storage.addOrUpdate("banana", 20);
-        FruitTransaction purchase = new FruitTransaction(FruitTransaction.Operation.PURCHASE, "banana", 5);
-        
+        FruitTransaction purchase = new FruitTransaction(FruitTransaction.Operation.PURCHASE,
+                "banana", 5);
         purchaseHandler.handle(purchase);
         assertEquals(15, Storage.getQuantity("banana"));
     }
 
     @Test
     void purchaseHandler_productNotFound_throwsException() {
-        FruitTransaction purchase = new FruitTransaction(FruitTransaction.Operation.PURCHASE, "pear", 5);
+        FruitTransaction purchase = new FruitTransaction(FruitTransaction.Operation.PURCHASE,
+                "pear", 5);
         
         assertThrows(RuntimeException.class, () -> purchaseHandler.handle(purchase));
     }
@@ -70,8 +78,8 @@ class OperationHandlersTest {
     @Test
     void purchaseHandler_notEnoughQuantity_throwsException() {
         Storage.addOrUpdate("banana", 10);
-        FruitTransaction purchase = new FruitTransaction(FruitTransaction.Operation.PURCHASE, "banana", 15);
-        
+        FruitTransaction purchase = new FruitTransaction(FruitTransaction.Operation.PURCHASE,
+                "banana", 15);
         assertThrows(RuntimeException.class, () -> purchaseHandler.handle(purchase));
     }
 }

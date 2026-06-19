@@ -4,9 +4,20 @@ import core.basesyntax.dao.FileReader;
 import core.basesyntax.dao.FileReaderImpl;
 import core.basesyntax.dao.FileWriter;
 import core.basesyntax.dao.FileWriterImpl;
-import core.basesyntax.service.*;
-import core.basesyntax.service.operation.*;
-
+import core.basesyntax.service.DataConverter;
+import core.basesyntax.service.DataConverterImpl;
+import core.basesyntax.service.FruitTransaction;
+import core.basesyntax.service.ReportGenerator;
+import core.basesyntax.service.ReportGeneratorImpl;
+import core.basesyntax.service.ShopService;
+import core.basesyntax.service.ShopServiceImpl;
+import core.basesyntax.service.operation.BalanceOperationHandler;
+import core.basesyntax.service.operation.OperationHandler;
+import core.basesyntax.service.operation.OperationStrategy;
+import core.basesyntax.service.operation.OperationStrategyImpl;
+import core.basesyntax.service.operation.PurchaseOperationHandler;
+import core.basesyntax.service.operation.ReturnOperationHandler;
+import core.basesyntax.service.operation.SupplyOperationHandler;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,15 +28,15 @@ public class Main {
         FileReader fileReader = new FileReaderImpl();
         List<String> inputReport = fileReader.read("src/main/resources/reportToRead.csv");
 
-        // 2. Convert the incoming data into FruitTransactions list
-        DataConverter dataConverter = new DataConverterImpl();
-
         // 3. Create and feel the map with all OperationHandler implementations
         Map<FruitTransaction.Operation, OperationHandler> operationHandlers = new HashMap<>();
         operationHandlers.put(FruitTransaction.Operation.BALANCE, new BalanceOperationHandler());
         operationHandlers.put(FruitTransaction.Operation.PURCHASE, new PurchaseOperationHandler());
         operationHandlers.put(FruitTransaction.Operation.RETURN, new ReturnOperationHandler());
         operationHandlers.put(FruitTransaction.Operation.SUPPLY, new SupplyOperationHandler());
+
+        // 2. Convert the incoming data into FruitTransactions list
+        DataConverter dataConverter = new DataConverterImpl();
         OperationStrategy operationStrategy = new OperationStrategyImpl(operationHandlers);
         List<FruitTransaction> transactions = dataConverter.convertToTransaction(inputReport);
 
