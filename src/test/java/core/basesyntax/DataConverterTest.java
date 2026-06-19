@@ -42,7 +42,7 @@ public class DataConverterTest {
     @Test
     void convertToTransaction_ValidLinesWithSpaces_ok() {
         List<String> inputLines = List.of(
-                "type,fruit,quantity", // Заголовок (будет пропущен)
+                "type,fruit,quantity",
                 "b , banana , 20 ");
         List<FruitTransaction> actualTransactions = dataConverter.convertToTransaction(inputLines);
         FruitTransaction first = actualTransactions.get(0);
@@ -61,7 +61,7 @@ public class DataConverterTest {
     void convertToTransaction_NegativeQuantity_throwsException() {
         List<String> invalidLines = List.of(
                 "type,fruit,quantity",
-                "b,banana,-5" // Отрицательное число
+                "b,banana,-5"
         );
         assertThrows(RuntimeException.class, () ->
                 dataConverter.convertToTransaction(invalidLines));
@@ -71,7 +71,7 @@ public class DataConverterTest {
     void convertToTransaction_InvalidCsvFormat_throwsException() {
         List<String> invalidLines = List.of(
                 "type,fruit,quantity",
-                "b,banana" // Пропущено количество (всего 2 колонки вместо 3)
+                "b,banana"
         );
         DataConverter dataConverter = new DataConverterImpl();
         assertThrows(RuntimeException.class, () ->

@@ -61,7 +61,7 @@ class ShopServiceTest {
     void process_listWithNullElement_throwsException() {
         List<FruitTransaction> transactions = new ArrayList<>();
         transactions.add(new FruitTransaction(FruitTransaction.Operation.BALANCE, "banana", 10));
-        transactions.add(null); // Элемент списка равен null
+        transactions.add(null);
 
         assertThrows(IllegalArgumentException.class, () -> shopService.process(transactions));
     }

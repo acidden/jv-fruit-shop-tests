@@ -38,7 +38,6 @@ class OperationHandlersTest {
 
     @Test
     void supplyHandler_newAndExistingFruit_ok() {
-        // Поставка нового фрукта
         FruitTransaction supplyNew = new FruitTransaction(
                 FruitTransaction.Operation.SUPPLY, "apple", 50);
         supplyHandler.handle(supplyNew);
